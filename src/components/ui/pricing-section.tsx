@@ -1,11 +1,11 @@
 import { CheckCircle, type LucideIcon } from 'lucide-react';
 
-export type ServicePlanId = 'bridal' | 'engagement' | 'party';
+export type ServicePlanId = 'bridal' | 'engagement' | 'custom';
 
 export interface PricingPlan {
   id: ServicePlanId;
   name: string;
-  price: number;
+  price: number | string;
   description: string;
   features: string[];
   actionLabel: string;
@@ -13,33 +13,27 @@ export interface PricingPlan {
 }
 
 interface PricingSectionProps {
-  selectedPlan: ServicePlanId;
   plans: PricingPlan[];
-  onSelectPlan: (plan: ServicePlanId) => void;
 }
 
-export const Component = ({ selectedPlan, plans, onSelectPlan }: PricingSectionProps) => {
+export const Component = ({ plans }: PricingSectionProps) => {
   return (
     <div className="pricing-section-shell">
       <div className="pricing-section-heading">
-        <span className="section-label">Tailored Offerings</span>
-        <h2>Bespoke Services</h2>
+        <span className="section-label">Investment</span>
+        <h2>Tailored Offerings</h2>
         <p>
-          Choose the artistry experience closest to your ceremony, then refine the estimate with
-          add-ons below.
+          Choose the artistry experience closest to your ceremony, or let us curate a completely custom package for you.
         </p>
       </div>
 
       <div className="pricing-services-grid">
         {plans.map((plan) => {
           const Icon = plan.icon;
-          const isSelected = selectedPlan === plan.id;
-
           return (
             <article
               key={plan.id}
-              className={`pricing-service-card ${isSelected ? 'selected' : ''}`}
-              onClick={() => onSelectPlan(plan.id)}
+              className="pricing-service-card"
             >
               <div className="pricing-card-top">
                 <div className="pricing-icon-wrap">
@@ -52,7 +46,7 @@ export const Component = ({ selectedPlan, plans, onSelectPlan }: PricingSectionP
               </div>
 
               <div className="pricing-card-price">
-                ₹{plan.price.toLocaleString('en-IN')}
+                {typeof plan.price === 'number' ? `₹${plan.price.toLocaleString('en-IN')}` : plan.price}
               </div>
 
               <p className="pricing-card-description">{plan.description}</p>
@@ -67,17 +61,13 @@ export const Component = ({ selectedPlan, plans, onSelectPlan }: PricingSectionP
                 ))}
               </div>
 
-              <button
-                type="button"
+              <a
+                href="#contact"
                 className="pricing-card-action"
-                aria-pressed={isSelected}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  onSelectPlan(plan.id);
-                }}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}
               >
-                {isSelected ? 'Selected' : plan.actionLabel}
-              </button>
+                {plan.actionLabel}
+              </a>
             </article>
           );
         })}

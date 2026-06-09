@@ -2,35 +2,29 @@ import { useState, useEffect } from 'react';
 import { 
   Heart, 
   Sparkles, 
-  MapPin, 
-  Phone, 
-  Mail, 
-  X, 
   Menu, 
-  Clock, 
-  CheckCircle,
+  X, 
   Gem,
-  Award
+  Clock,
+  Award,
+  MapPin,
+  Phone,
+  Mail,
 } from 'lucide-react';
-import { Component as PricingSection, type PricingPlan, type ServicePlanId } from './components/ui/pricing-section';
+import { Component as PricingSection, type PricingPlan } from './components/ui/pricing-section';
 import TestimonialsEditorial, { type EditorialTestimonial } from './components/ui/editorial-testimonial';
 
-// Import assets
-import bridalMakeupImg from './assets/bridal_makeup.png';
-import engagementMakeupImg from './assets/engagement_makeup.png';
-import editorialMakeupImg from './assets/editorial_makeup.png';
+import bridal01 from './assets/bridal01.jpg';
+import engagement01 from './assets/engagement01.jpg';
+import editorial01 from './assets/editorial01.jpg';
 import heroImage from './assets/bbb.jpg';
+import tanyaPortrait from './assets/tanya_portrait.png';
 
 import { ImageGallery } from './components/ui/image-gallery';
 
 // Type definitions
 
-interface Addon {
-  id: string;
-  name: string;
-  price: number;
-  description: string;
-}
+
 
 function App() {
   // Navigation scrolled state
@@ -40,23 +34,10 @@ function App() {
   // Active section for menu highlighting
   const [activeSection, setActiveSection] = useState('home');
 
-  // Estimator States
-  const [selectedService, setSelectedService] = useState<ServicePlanId>('bridal');
-  const [guestsCount, setGuestsCount] = useState<number>(0);
-  const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
+
   
 
 
-  // Booking Form Form State
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    date: '',
-    venue: '',
-    message: ''
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Constants
   const basePrices = {
@@ -95,25 +76,19 @@ function App() {
       icon: Sparkles
     },
     {
-      id: 'party',
-      name: 'Celebrity Party Glam',
-      price: basePrices.party,
-      description: 'A refined high-finish look for cocktails, receptions, and family events where you want presence without heaviness.',
+      id: 'custom',
+      name: 'Custom Curation',
+      price: 'On Request',
+      description: 'A fully bespoke beauty experience tailored to destination weddings, multi-day events, or editorial photoshoots.',
       features: [
-        'Lightweight high-finish glow',
-        'Smoky or elegant soft eyes',
-        'Modern blowout or waves',
-        '12-hour setting glaze'
+        'Customized moodboards & consultations',
+        'Multiple look transitions',
+        'Bridal party styling coordination',
+        'Exclusive luxury kit & dedicated time'
       ],
-      actionLabel: 'Select Party Glam',
+      actionLabel: 'Inquire Now',
       icon: Gem
     }
-  ];
-
-  const addonsList: Addon[] = [
-    { id: 'hair', name: 'HD Hair Styling Upgrade', price: 3000, description: 'Premium luxury styling, extensions setting, and hair accessory placement.' },
-    { id: 'lashes', name: 'Premium Mink Eyelashes', price: 1500, description: 'Handcrafted premium reusable volume lashes for maximum impact.' },
-    { id: 'draping', name: 'Saree / Dupatta Draping', price: 2000, description: 'Elegant standard or celebrity-style heavy pleating and secure pin-up.' }
   ];
 
 
@@ -125,7 +100,7 @@ function App() {
       role: 'Bridal Client (Dehradun)',
       company: 'Royal Crimson Bride',
       quote: 'Tanya made my skin look like skin, only completely flawless and glowing. The makeup lasted from the morning ceremony through reception without a single crease.',
-      image: bridalMakeupImg
+      image: bridal01
     },
     {
       id: 2,
@@ -133,7 +108,7 @@ function App() {
       role: 'Engagement Client (Mussoorie)',
       company: 'Sundowner Sagan',
       quote: 'She understood my vision of minimal but elegant instantly. The soft-glam dewy finish photographed beautifully in the Mussoorie light.',
-      image: engagementMakeupImg
+      image: engagement01
     },
     {
       id: 3,
@@ -141,14 +116,11 @@ function App() {
       role: 'Celebrity Guest Makeup',
       company: 'Reception Glam',
       quote: 'Her attention to detail is unmatched. She sets up a calm luxury vanity at the venue and makes sensitive skin look and feel amazing.',
-      image: editorialMakeupImg
+      image: editorial01
     }
   ];
 
-  const premiumBrands = [
-    'Dior Beauty', 'Chanel', 'Huda Beauty', 'MAC Cosmetics', 
-    'Fenty Beauty', 'Estée Lauder', 'Anastasia Beverly Hills', 'NARS'
-  ];
+  
 
   // Scroll event handler
   useEffect(() => {
@@ -179,49 +151,8 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Calculate live estimate
-  const getEstimatedCost = () => {
-    let total = basePrices[selectedService];
-    
-    // Addons
-    selectedAddons.forEach(addonId => {
-      const addon = addonsList.find(a => a.id === addonId);
-      if (addon) total += addon.price;
-    });
 
-    // Guests
-    total += guestsCount * 5000;
 
-    return total;
-  };
-
-  const toggleAddon = (addonId: string) => {
-    if (selectedAddons.includes(addonId)) {
-      setSelectedAddons(selectedAddons.filter(id => id !== addonId));
-    } else {
-      setSelectedAddons([...selectedAddons, addonId]);
-    }
-  };
-
-  // Form Submit handler
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simulate API call
-    setIsSubmitted(true);
-  };
-
-  const closeSuccessModal = () => {
-    setIsSubmitted(false);
-    // Reset form
-    setFormData({
-      name: '',
-      phone: '',
-      email: '',
-      date: '',
-      venue: '',
-      message: ''
-    });
-  };
 
   return (
     <>
@@ -308,37 +239,20 @@ function App() {
       </div>
 
       {/* Hero Section */}
-      <section 
-        id="home" 
-        className="hero-section"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      >
+      <section id="home" className="hero-section">
+        <div 
+          className="hero-bg" 
+          style={{ backgroundImage: `url(${heroImage})` }} 
+        />
         <div className="hero-overlay" />
-        <div className="hero-content">
-          <span className="hero-subtitle">Brioura by Tanya Kashyap</span>
-          <h1 className="hero-title">
-            <span className="gold-gradient-text">Radiant Bridal Artistry</span>
+        <div className="hero-content editorial-hero">
+          <h1 className="editorial-title">
+            {"BRIOURA".split('').map((char, index) => (
+              <span key={index} style={{ animationDelay: `${0.2 + index * 0.1}s` }}>{char}</span>
+            ))}
           </h1>
-          <p className="hero-description">
-            Bespoke luxury bridal, engagement, and celebrity makeup services designed 
-            to celebrate your unique elegance. Based in Dehradun, available for venue travel nationwide.
-          </p>
-          <div className="hero-cta">
-            <a href="#contact" className="btn-primary">
-              Book Your Date
-            </a>
-            <a href="#gallery" className="btn-secondary">
-              View Portfolio
-            </a>
-          </div>
+          <p className="editorial-subtitle">by Tanya Kashyap</p>
         </div>
-        <button 
-          className="hero-scroll-btn"
-          onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-        >
-          Scroll to explore
-          <span className="scroll-indicator-dot" />
-        </button>
       </section>
 
       {/* About Section */}
@@ -349,14 +263,11 @@ function App() {
               <span className="section-label">The Artist</span>
               <h2 className="about-title">Tanya Kashyap</h2>
               <p className="about-desc">
-                Welcome to Brioura. I believe that professional makeup should not mask your beauty, 
-                but gracefully curate and amplify it. With years of experience catering to high-end 
-                bridal and celebrity clients across India, I specialize in crafting flawless, dewy, 
-                and glowing-from-within aesthetics.
+                Welcome to Brioura. I believe that true luxury in artistry lies in revelation, not disguise. Specializing in high-end bridal and editorial aesthetics across India, my signature approach focuses on cultivating flawless, lit-from-within skin that breathes. Every brushstroke is an intentional refinement of your natural architecture, ensuring you look breathtaking in person and timeless through the lens.
               </p>
               
               <div className="about-philosophy">
-                "Real skin textures, enhanced contours, and soft-focus eyes that photograph timelessly."
+                "Embracing real skin textures, sculpting weightless contours, and designing soft-focus eyes for an enduring, cinematic elegance."
               </div>
 
               <div className="about-highlights">
@@ -405,7 +316,7 @@ function App() {
             <div className="about-image-right">
               <div className="about-image-wrapper">
                 <img 
-                  src={engagementMakeupImg} 
+                  src={tanyaPortrait} 
                   alt="Tanya Kashyap - Luxury Makeup Artist" 
                   className="about-image"
                 />
@@ -419,192 +330,21 @@ function App() {
         </div>
       </section>
 
-      {/* Services & Estimator Section */}
+      {/* Services Section */}
       <section id="services" className="section-padding services-section">
         <div className="container">
-          <PricingSection
-            selectedPlan={selectedService}
-            plans={servicePlans}
-            onSelectPlan={setSelectedService}
-          />
-
-          {/* Interactive Estimator Panel */}
-          <div className="estimator-panel">
-            <h3 className="estimator-title">Interactive Rate Calculator</h3>
-            
-            <div className="estimator-grid">
-              <div className="estimator-options">
-                
-                {/* Package Select */}
-                <div>
-                  <h4 className="estimator-group-title">1. Select Luxury Package</h4>
-                  <div className="service-selector-grid">
-                    <div 
-                      className={`selector-option ${selectedService === 'bridal' ? 'active' : ''}`}
-                      onClick={() => setSelectedService('bridal')}
-                    >
-                      <div className="selector-option-name">Bridal</div>
-                      <div className="selector-option-price">₹25,000</div>
-                    </div>
-                    <div 
-                      className={`selector-option ${selectedService === 'engagement' ? 'active' : ''}`}
-                      onClick={() => setSelectedService('engagement')}
-                    >
-                      <div className="selector-option-name">Engagement</div>
-                      <div className="selector-option-price">₹18,000</div>
-                    </div>
-                    <div 
-                      className={`selector-option ${selectedService === 'party' ? 'active' : ''}`}
-                      onClick={() => setSelectedService('party')}
-                    >
-                      <div className="selector-option-name">Party Glam</div>
-                      <div className="selector-option-price">₹12,000</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Addons */}
-                <div>
-                  <h4 className="estimator-group-title">2. Enhance Your Package (Add-ons)</h4>
-                  <div className="addon-list">
-                    {addonsList.map(addon => (
-                      <div 
-                        key={addon.id} 
-                        className={`addon-item ${selectedAddons.includes(addon.id) ? 'active' : ''}`}
-                        onClick={() => toggleAddon(addon.id)}
-                      >
-                        <div className="addon-checkbox-label">
-                          <input 
-                            type="checkbox" 
-                            className="addon-checkbox"
-                            checked={selectedAddons.includes(addon.id)}
-                            readOnly
-                          />
-                          <div>
-                            <div>{addon.name}</div>
-                            <span style={{ fontSize: '0.78rem', color: 'var(--text-light-secondary)' }}>
-                              {addon.description}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="addon-price">+₹{addon.price.toLocaleString('en-IN')}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Guest Multiplier Slider */}
-                <div>
-                  <h4 className="estimator-group-title">3. Guest / Bridesmaid Makeups</h4>
-                  <div className="guest-slider-container">
-                    <div className="guest-slider-header">
-                      <span className="guest-slider-label">Helper / Family Makeup count</span>
-                      <span className="guest-slider-value">{guestsCount} Guests (+₹{(guestsCount * 5000).toLocaleString('en-IN')})</span>
-                    </div>
-                    <input 
-                      type="range" 
-                      min="0" 
-                      max="10" 
-                      value={guestsCount}
-                      onChange={(e) => setGuestsCount(parseInt(e.target.value))}
-                      className="range-slider"
-                    />
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginTop: '0.5rem', color: 'var(--text-light-secondary)' }}>
-                      <span>0 Guests</span>
-                      <span>5 Guests</span>
-                      <span>10 Guests</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Estimate Summary Panel */}
-              <div className="estimator-summary">
-                <h4 className="summary-title">Estimate Summary</h4>
-                
-                <div className="summary-row">
-                  <span>Base Luxury Package</span>
-                  <span>₹{basePrices[selectedService].toLocaleString('en-IN')}</span>
-                </div>
-
-                {selectedAddons.map(addonId => {
-                  const addon = addonsList.find(a => a.id === addonId);
-                  return addon ? (
-                    <div className="summary-row" key={addonId}>
-                      <span>{addon.name}</span>
-                      <span>+₹{addon.price.toLocaleString('en-IN')}</span>
-                    </div>
-                  ) : null;
-                })}
-
-                {guestsCount > 0 && (
-                  <div className="summary-row">
-                    <span>Bridesmaid Makeups ({guestsCount}x)</span>
-                    <span>+₹{(guestsCount * 5000).toLocaleString('en-IN')}</span>
-                  </div>
-                )}
-
-                <div className="summary-row total">
-                  <span>Estimated Investment</span>
-                  <span className="price-val">₹{getEstimatedCost().toLocaleString('en-IN')}</span>
-                </div>
-
-                <p className="summary-note">
-                  *Estimates exclude travel charges if venue lies outside Dehradun. 
-                  A 50% deposit is required to secure the slot.
-                </p>
-
-                <button 
-                  className="btn-summary-action"
-                  onClick={() => {
-                    const el = document.getElementById('contact');
-                    if (el) {
-                      el.scrollIntoView({ behavior: 'smooth' });
-                      // Pre-fill booking message with estimate details
-                      setFormData(prev => ({
-                        ...prev,
-                        message: `Hi Tanya, I would like to book a slots for: \n- Service: ${selectedService.toUpperCase()} Package\n- Addons: ${selectedAddons.map(id => addonsList.find(a=>a.id===id)?.name).join(', ') || 'None'}\n- Additional Guests: ${guestsCount}\n- Estimated Price: ₹${getEstimatedCost().toLocaleString('en-IN')}`
-                      }));
-                    }
-                  }}
-                >
-                  Send Booking Inquiry
-                </button>
-              </div>
-            </div>
-          </div>
+          <PricingSection plans={servicePlans} />
         </div>
       </section>
 
       {/* Gallery Section */}
-      <section id="gallery" className="section-padding gallery-section overflow-hidden">
+      <section id="gallery" className="gallery-section overflow-hidden" style={{ paddingTop: '4rem', paddingBottom: '2rem' }}>
         <div className="container">
-          <span className="section-label" style={{ display: 'block', textAlign: 'center' }}>Curated Portfolio</span>
-          <h2 className="gallery-title" style={{ color: 'var(--text-dark-primary)', marginBottom: '1.5rem' }}>Signature Works</h2>
-          <p style={{ textAlign: 'center', color: 'var(--text-light-secondary)', fontSize: '0.95rem', marginBottom: '4rem', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto' }}>
-            A visual showcase of bespoke bridal, editorial, and celebrity makeup creations designed by Tanya Kashyap.
-          </p>
+          <h2 className="gallery-title" style={{ color: 'var(--text-dark-primary)', textAlign: 'center', marginBottom: '2rem' }}>My Works</h2>
 
           <ImageGallery />
-        </div>
-      </section>
 
-      {/* Inside the Kit / Premium Brands */}
-      <section className="kit-section">
-        <div className="container">
-          <h3 className="kit-title">Only Premium In The Kit</h3>
-          <p className="kit-subtitle">
-            I prioritize your skin health above all. The Brioura standard strictly requires premium, 
-            internationally renowned brands ensuring smooth blends that last hours under bright photo flash.
-          </p>
-          <div className="brand-logos-grid">
-            {premiumBrands.map(brand => (
-              <div className="brand-item" key={brand}>
-                {brand}
-              </div>
-            ))}
-          </div>
-        </div>
+                  </div>
       </section>
 
       {/* Testimonials Section */}
@@ -617,236 +357,45 @@ function App() {
       </section>
 
       {/* Booking / Contact Form Section */}
-      <section id="contact" className="section-padding contact-section">
-        <div className="container">
+      <section id="contact" className="section-padding contact-section" style={{ textAlign: 'center', padding: '6rem 0' }}>
+        <div className="container" style={{ maxWidth: '600px', margin: '0 auto' }}>
           <span className="section-label" style={{ display: 'block', textAlign: 'center' }}>Connect</span>
-          <h2 className="contact-title">Inquire Availability</h2>
+          <h2 className="contact-title" style={{ marginBottom: '1rem' }}>Inquire Availability</h2>
+          <p className="info-panel-desc" style={{ marginBottom: '2.5rem', textAlign: 'center' }}>
+            Dates book fast—especially during peak wedding season. Reach out directly on Instagram to coordinate your session, review pricing, and secure your booking.
+          </p>
 
-          <div className="contact-layout">
-            <div className="contact-info-panel">
-              <div>
-                <h3 className="info-panel-title">Let's Create Magic</h3>
-                <p className="info-panel-desc">
-                  Dates book fast—especially during peak wedding season. Fill out the form 
-                  with your event details, and my team will coordinate a session for you.
-                </p>
-              </div>
-
-              <div className="contact-details-list">
-                <div className="contact-detail-item">
-                  <div className="detail-icon-container">
-                    <MapPin size={22} />
-                  </div>
-                  <div>
-                    <span className="detail-label">Studio Location</span>
-                    <p className="detail-val">Rajpur Road, Dehradun, Uttarakhand, India</p>
-                  </div>
-                </div>
-
-                <div className="contact-detail-item">
-                  <div className="detail-icon-container">
-                    <Phone size={22} />
-                  </div>
-                  <div>
-                    <span className="detail-label">Direct Contact</span>
-                    <p className="detail-val">
-                      <a href="tel:+919876543210">+91 98765 43210</a>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="contact-detail-item">
-                  <div className="detail-icon-container">
-                    <Mail size={22} />
-                  </div>
-                  <div>
-                    <span className="detail-label">General Email</span>
-                    <p className="detail-val">
-                      <a href="mailto:hello@brioura.com">inquiries@brioura.com</a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="social-connect-box">
-                <h4 className="social-connect-title">Follow Tanya's Journey</h4>
-                <div className="social-icon-row">
-                  <a 
-                    href="https://www.instagram.com/briourabytanyakashyap/" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="social-round-btn"
-                    aria-label="Instagram Link"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Form Card */}
-            <div className="booking-form-card">
-              <form onSubmit={handleFormSubmit}>
-                <div className="booking-form-grid">
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="client-name">Full Name *</label>
-                    <input 
-                      type="text" 
-                      id="client-name"
-                      required
-                      placeholder="e.g. Priyanjali Sharma"
-                      className="form-input"
-                      value={formData.name}
-                      onChange={e => setFormData({...formData, name: e.target.value})}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="client-phone">Phone Number *</label>
-                    <input 
-                      type="tel" 
-                      id="client-phone"
-                      required
-                      placeholder="+91 XXXXX XXXXX"
-                      className="form-input"
-                      value={formData.phone}
-                      onChange={e => setFormData({...formData, phone: e.target.value})}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="client-email">Email Address</label>
-                    <input 
-                      type="email" 
-                      id="client-email"
-                      placeholder="e.g. sharma.priya@gmail.com"
-                      className="form-input"
-                      value={formData.email}
-                      onChange={e => setFormData({...formData, email: e.target.value})}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="event-date">Event Date *</label>
-                    <input 
-                      type="date" 
-                      id="event-date"
-                      required
-                      className="form-input"
-                      value={formData.date}
-                      onChange={e => setFormData({...formData, date: e.target.value})}
-                    />
-                  </div>
-
-                  <div className="form-group form-group-full">
-                    <label className="form-label" htmlFor="venue-location">Venue / Hotel Address *</label>
-                    <input 
-                      type="text" 
-                      id="venue-location"
-                      required
-                      placeholder="e.g. JW Marriott Mussoorie, Dehradun"
-                      className="form-input"
-                      value={formData.venue}
-                      onChange={e => setFormData({...formData, venue: e.target.value})}
-                    />
-                  </div>
-
-                  <div className="form-group form-group-full">
-                    <label className="form-label" htmlFor="inquiry-message">Inquiry Details / Estimate Breakdown</label>
-                    <textarea 
-                      id="inquiry-message"
-                      rows={5}
-                      placeholder="List details like preferred makeup style, draping requests, helper numbers, or wedding themes..."
-                      className="form-textarea"
-                      value={formData.message}
-                      onChange={e => setFormData({...formData, message: e.target.value})}
-                    />
-                  </div>
-
-                  <div className="form-group-full">
-                    <button type="submit" className="btn-form-submit">
-                      Send Date Inquiry
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
+          <a 
+            href="https://www.instagram.com/briourabytanyakashyap/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-form-submit instagram-btn"
+            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.8rem', textDecoration: 'none', padding: '1.2rem 3rem', fontSize: '1.1rem', width: 'auto' }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+            Enquire Now on Instagram
+          </a>
         </div>
       </section>
 
-      {/* Success Modal Dialogue */}
-      {isSubmitted && (
-        <div className="success-overlay" onClick={closeSuccessModal}>
-          <div className="success-modal" onClick={e => e.stopPropagation()}>
-            <div className="success-icon-box">
-              <CheckCircle size={52} />
-            </div>
-            <h3 className="success-title">Request Received</h3>
-            <p className="success-msg">
-              Thank you, <strong>{formData.name}</strong>! Your inquiry for <strong>{formData.date || 'your wedding date'}</strong> at <strong>{formData.venue}</strong> has been cataloged.
-              <br /><br />
-              Tanya's coordination desk will check schedule sheets and contact you via phone (<strong>{formData.phone}</strong>) within 24 hours to review your pricing and secure your 50% reservation deposit.
-            </p>
-            <button className="success-close-btn" onClick={closeSuccessModal}>
-              Acknowledge
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* Footer Section */}
-      <footer className="footer">
+      <footer className="footer" style={{ padding: '6rem 0 2rem', textAlign: 'center', overflow: 'hidden', background: 'var(--bg-secondary)' }}>
         <div className="container">
-          <div className="footer-grid">
-            <div className="footer-brand">
-              <h2 className="footer-logo">
-                Brioura<span>.</span>
-              </h2>
-              <p className="footer-tagline">
-                Luxury bridal, engagement, and high-fashion editorial makeup artistry. 
-                Creating timeless, radiant look catalogs since 2021.
-              </p>
-            </div>
-
-            <div className="footer-links-col">
-              <span className="footer-col-title">Browse</span>
-              <ul className="footer-links-list">
-                <li className="footer-link-item"><a href="#home">Home</a></li>
-                <li className="footer-link-item"><a href="#about">About Tanya</a></li>
-                <li className="footer-link-item"><a href="#services">Services</a></li>
-                <li className="footer-link-item"><a href="#gallery">Portfolio</a></li>
-                <li className="footer-link-item"><a href="#testimonials">Reviews</a></li>
-              </ul>
-            </div>
-
-            <div className="footer-links-col">
-              <span className="footer-col-title">Connect With Us</span>
-              <div className="footer-contact-info">
-                <div className="footer-contact-row">
-                  <MapPin size={18} className="footer-contact-icon" />
-                  <span className="footer-contact-text">Rajpur Road, Dehradun, UK, India</span>
-                </div>
-                <div className="footer-contact-row">
-                  <Phone size={18} className="footer-contact-icon" />
-                  <span className="footer-contact-text">
-                    <a href="tel:+919876543210">+91 98765 43210</a>
-                  </span>
-                </div>
-                <div className="footer-contact-row">
-                  <Mail size={18} className="footer-contact-icon" />
-                  <span className="footer-contact-text">
-                    <a href="mailto:hello@brioura.com">inquiries@brioura.com</a>
-                  </span>
-                </div>
-              </div>
-            </div>
+          <div className="footer-links" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '2rem', marginBottom: '4rem', textTransform: 'uppercase', fontSize: '0.85rem', letterSpacing: '0.1em' }}>
+            <a href="#home" style={{ color: 'var(--text-light-secondary)', textDecoration: 'none' }}>Home</a>
+            <a href="#about" style={{ color: 'var(--text-light-secondary)', textDecoration: 'none' }}>About</a>
+            <a href="#services" style={{ color: 'var(--text-light-secondary)', textDecoration: 'none' }}>Services</a>
+            <a href="#gallery" style={{ color: 'var(--text-light-secondary)', textDecoration: 'none' }}>Portfolio</a>
+            <a href="#contact" style={{ color: 'var(--text-light-secondary)', textDecoration: 'none' }}>Contact</a>
           </div>
-
-          <div className="footer-bottom">
-            <p>&copy; {new Date().getFullYear()} Brioura by Tanya Kashyap. All Rights Reserved.</p>
-            <p>Designed with Elegance for Tanya Kashyap</p>
+          
+          <div className="animated-footer-text">
+            BRIOURA
           </div>
+          
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-light-secondary)', marginTop: '2rem', opacity: 0.6 }}>
+            &copy; {new Date().getFullYear()} Brioura by Tanya Kashyap. All Rights Reserved.
+          </p>
         </div>
       </footer>
     </>
