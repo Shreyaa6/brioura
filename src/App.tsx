@@ -485,6 +485,17 @@ function App() {
         <p style={{ fontSize: '0.7rem', color: '#ffffff', margin: 0, opacity: 0.5, letterSpacing: '0.05em' }}>
           &copy; {new Date().getFullYear()} Brioura. All Rights Reserved.
         </p>
+        <p style={{ fontSize: '0.65rem', color: '#ffffff', margin: '0.5rem 0 0', opacity: 0.35, letterSpacing: '0.05em' }}>
+          made by{' '}
+          <a
+            href="https://carveyourbrand.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#ffffff', textDecoration: 'underline', textUnderlineOffset: '3px', opacity: 1 }}
+          >
+            CarveYourBrand
+          </a>
+        </p>
       </footer>
     </>
   );
