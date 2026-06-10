@@ -6,7 +6,7 @@ const galleryData: GalleryItem[] = [
 		binomial: 'Panthera leo',
 		photo: {
 			url: 'https://images.unsplash.com/photo-1583499871880-de841d1ace2a?w=900&auto=format&fit=crop&q=80',
-			text: 'lion couple kissing on a brown rock',
+			text: 'lion couple kissing on a rock',
 			pos: '47% 35%',
 			by: 'Clément Roy'
 		}
