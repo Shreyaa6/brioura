@@ -6,18 +6,12 @@ import {
   Menu, 
   X, 
   Gem,
-  Clock,
-  Award,
 } from 'lucide-react';
 import { Component as PricingSection, type PricingPlan } from './components/ui/pricing-section';
 import TestimonialsEditorial, { type EditorialTestimonial } from './components/ui/editorial-testimonial';
 
 import bridal01 from './assets/bridal01.jpg';
-import bridal02 from './assets/bridal02.jpg';
-import bridal03 from './assets/bridal03.jpg';
-import bridal04 from './assets/bridal04.jpg';
 import engagement01 from './assets/engagement01.jpg';
-import engagement02 from './assets/engagement02.jpg';
 import editorial01 from './assets/editorial01.jpg';
 import heroImage from './assets/bbb.jpg';
 import tanyaPortrait from './assets/tanya_portrait.png';
