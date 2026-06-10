@@ -72,7 +72,7 @@ export const Component = ({ plans }: PricingSectionProps) => {
                 {plan.description}
               </p>
 
-              <div style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1.2rem', marginBottom: '1.5rem' }}>
+              <div style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1.2rem' }}>
                 <span style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--text-dark-primary)', display: 'block', marginBottom: '1rem', fontWeight: 600 }}>Includes</span>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
                   {plan.features.map((feature) => (
@@ -83,34 +83,6 @@ export const Component = ({ plans }: PricingSectionProps) => {
                   ))}
                 </div>
               </div>
-
-              <a
-                href="#contact"
-                style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center', 
-                  textDecoration: 'none',
-                  padding: '1rem',
-                  width: '100%',
-                  border: '1px solid var(--text-dark-primary)',
-                  color: 'var(--text-dark-primary)',
-                  textTransform: 'uppercase',
-                  fontSize: '0.8rem',
-                  letterSpacing: '0.15em',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.background = 'var(--text-dark-primary)';
-                  e.currentTarget.style.color = '#ffffff';
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.color = 'var(--text-dark-primary)';
-                }}
-              >
-                {plan.actionLabel}
-              </a>
             </article>
           );
         })}

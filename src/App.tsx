@@ -197,8 +197,8 @@ function App() {
             <a href="#testimonials" className={`nav-menu-link ${activeSection === 'testimonials' ? 'active' : ''}`}>Reviews</a>
           </div>
 
-          <a href="#contact" className="nav-cta">
-            Inquire
+          <a href="https://www.instagram.com/briourabytanyakashyap/" target="_blank" rel="noopener noreferrer" className="nav-cta">
+            Enquire
           </a>
 
           <button
