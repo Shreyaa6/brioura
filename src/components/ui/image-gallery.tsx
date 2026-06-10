@@ -52,7 +52,6 @@ const galleryItems: GalleryItem[] = [
 ];
 
 const filters: { id: GalleryCategory; label: string }[] = [
-  { id: 'all', label: 'All' },
   { id: 'bridal', label: 'Bridal' },
   { id: 'engagement', label: 'Engagement' },
   { id: 'editorial', label: 'Editorial' }
@@ -66,24 +65,62 @@ export function ImageGallery() {
       ? galleryItems
       : galleryItems.filter((item) => item.category === activeFilter);
   }, [activeFilter]);
-
-  const handleFilterChange = (filter: GalleryCategory) => {
-    setActiveFilter(filter);
-  };
-
   return (
     <div className="editorial-gallery">
-      <div className="editorial-gallery-filters" aria-label="Portfolio categories">
-        {filters.map((filter) => (
-          <button
-            key={filter.id}
-            type="button"
-            className={activeFilter === filter.id ? 'active' : ''}
-            onClick={() => handleFilterChange(filter.id)}
-          >
-            {filter.label}
-          </button>
-        ))}
+      <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+        <div 
+          style={{ 
+            display: 'inline-flex', 
+            justifyContent: 'flex-start', 
+            gap: '0.8rem', 
+            flexWrap: 'nowrap',
+            overflowX: 'auto',
+            WebkitOverflowScrolling: 'touch',
+            paddingBottom: '0.5rem',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            maxWidth: '100%'
+          }}
+          className="hide-scrollbar"
+        >
+          <style>{`.hide-scrollbar::-webkit-scrollbar { display: none; }`}</style>
+          {filters.map((filter) => (
+            <button
+              key={filter.id}
+              type="button"
+              onClick={() => setActiveFilter(activeFilter === filter.id ? 'all' : filter.id)}
+              style={{
+                background: activeFilter === filter.id ? 'var(--text-dark-primary)' : 'transparent',
+                border: activeFilter === filter.id ? '1px solid var(--text-dark-primary)' : '1px solid rgba(0,0,0,0.15)',
+                borderRadius: '2rem',
+                padding: '0.6rem 1.8rem',
+                cursor: 'pointer',
+                fontSize: '0.75rem',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: activeFilter === filter.id ? '#ffffff' : '#555555',
+                transition: 'all 0.3s ease',
+                outline: 'none',
+                fontWeight: 500,
+                flexShrink: 0
+              }}
+              onMouseOver={(e) => {
+                if (activeFilter !== filter.id) {
+                  e.currentTarget.style.border = '1px solid rgba(0,0,0,0.4)';
+                  e.currentTarget.style.color = 'var(--text-dark-primary)';
+                }
+              }}
+              onMouseOut={(e) => {
+                if (activeFilter !== filter.id) {
+                  e.currentTarget.style.border = '1px solid rgba(0,0,0,0.15)';
+                  e.currentTarget.style.color = '#555555';
+                }
+              }}
+            >
+              {filter.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="marquee-gallery-container">
